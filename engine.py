@@ -68,9 +68,14 @@ class Tools:
     def __init__(self):
         pf = os.environ.get("ProgramFiles", r"C:\Program Files")
         magicks = sorted(glob.glob(os.path.join(pf, "ImageMagick*", "magick.exe")), reverse=True)
-        self.magick = _find("magick", *magicks)
-        self.ffmpeg = _find(r"C:\ffmpeg\ffmpeg.exe", r"C:\ffmpeg\bin\ffmpeg.exe", "ffmpeg")
+        # prima gli strumenti inclusi nell'installer (bin\), poi quelli di sistema
+        bundled_magick = _use_bundled_magick()
+        self.magick = _find(bundled_magick, "magick", *magicks)
+        self.ffmpeg = _find(os.path.join(BIN_DIR, "ffmpeg.exe"),
+                            r"C:\ffmpeg\ffmpeg.exe", r"C:\ffmpeg\bin\ffmpeg.exe", "ffmpeg")
         self.texconv = _find(
+            os.path.join(BIN_DIR, "texconv.exe"),
+            os.path.join(USER_TOOLS, "texconv.exe"),      # scaricato dal pulsante nelle impostazioni
             os.path.join(APP_DIR, "tools", "texconv.exe"),
             os.path.join(APP_DIR, "texconv.exe"),
             r"C:\ffmpeg\texconv.exe",

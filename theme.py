@@ -198,6 +198,7 @@ QLineEdit:hover, QSpinBox:hover, QComboBox:hover {{ border-color: {P.border_hove
 QLineEdit:focus, QSpinBox:focus, QComboBox:focus {{ border-color: {P.accent}; }}
 QLineEdit:disabled, QSpinBox:disabled, QComboBox:disabled {{ color: {P.dim}; background: {P.surf}; }}
 QLineEdit#search {{ padding-left: 30px; border-radius: {R_MD}px; }}
+QComboBox {{ combobox-popup: 0; }}   /* popup a lista, senza le frecce di scorrimento agli estremi */
 QComboBox::drop-down {{ border: none; width: 26px; }}
 QComboBox::down-arrow {{ image: url({asset_dir}/chev.svg); width: 12px; height: 12px; }}
 QComboBox QAbstractItemView {{ background: {P.surf2}; border: 1px solid {P.border}; selection-background-color: {P.sel};

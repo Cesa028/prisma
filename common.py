@@ -5,7 +5,7 @@ import os
 import subprocess
 
 APP_NAME = "Prisma"
-APP_VERSION = "1.1"
+APP_VERSION = "1.1.1"
 APP_AUTHOR = "Cesa028"
 APP_URL = "https://github.com/Cesa028/prisma"
 APPDATA = os.path.join(os.environ.get("APPDATA", os.path.expanduser("~")), APP_NAME)

@@ -1518,7 +1518,19 @@ def excepthook(etype, value, tb):
         pass
 
 
+def selftest(out_path):
+    """`Prisma.exe --selftest <file>`: scrive quali strumenti vengono trovati (utile per verificare un'installazione)."""
+    t = engine.Tools()
+    lines = [f"versione: {APP_VERSION}", f"frozen: {engine.FROZEN}", f"cartella programma: {engine.APP_DIR}",
+             f"magick: {t.magick}", f"ffmpeg: {t.ffmpeg}", f"texconv: {t.texconv}"]
+    with open(out_path, "w", encoding="utf-8") as f:
+        f.write("\n".join(lines) + "\n")
+
+
 def main():
+    if len(sys.argv) >= 3 and sys.argv[1] == "--selftest":
+        selftest(sys.argv[2])
+        return
     sys.excepthook = excepthook
     if os.name == "nt":
         try:

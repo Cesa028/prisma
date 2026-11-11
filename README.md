@@ -24,7 +24,7 @@ Prisma converte, ridimensiona e ottimizza le immagini in blocco. Trascina file o
 
 ## Download
 
-L'installer per Windows è nella sezione **[Releases](../../releases/latest)**: scarica `Prisma-Setup-1.1.exe` ed eseguilo. Tutti gli strumenti necessari (ImageMagick, FFmpeg, texconv) sono già inclusi.
+L'installer per Windows è nella sezione **[Releases](../../releases/latest)**: scarica `Prisma-Setup-1.1.1.exe` ed eseguilo. Tutti gli strumenti necessari (ImageMagick, FFmpeg, texconv) sono già inclusi.
 
 ## Funzionalità
 
