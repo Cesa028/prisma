@@ -24,7 +24,7 @@ from PySide6.QtGui import QGuiApplication  # noqa: E402
 
 import engine  # noqa: E402
 import icons  # noqa: E402
-from ui import APP_VERSION  # noqa: E402
+from common import APP_VERSION  # noqa: E402
 
 BUILD = HERE / "build"
 DIST = HERE / "dist"
@@ -140,7 +140,8 @@ def main():
     # sorgente dell'app: permette di ricompilarla con un'altra versione di Qt (LGPL v3, sez. 4)
     src = pkg / "source"
     (src / "installer").mkdir(parents=True)
-    for name in ("Prisma.pyw", "ui.py", "engine.py", "icons.py", "build.py", "LICENSE.txt"):
+    for name in ("Prisma.pyw", "ui.py", "common.py", "jobs.py", "widgets.py", "dialogs.py", "theme.py",
+                 "engine.py", "icons.py", "build.py", "LICENSE.txt"):
         shutil.copy2(HERE / name, src / name)
     for p in (HERE / "installer").iterdir():
         shutil.copy2(p, src / "installer" / p.name)

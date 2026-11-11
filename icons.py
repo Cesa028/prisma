@@ -1,7 +1,9 @@
 """Icone vettoriali (stile Lucide) disegnate a runtime."""
 from PySide6.QtCore import QByteArray, QRectF, Qt
-from PySide6.QtGui import QColor, QIcon, QLinearGradient, QPainter, QPainterPath, QPen, QPixmap
+from PySide6.QtGui import QColor, QIcon, QIconEngine, QLinearGradient, QPainter, QPainterPath, QPen, QPixmap
 from PySide6.QtSvg import QSvgRenderer
+
+from theme import P
 
 PATHS = {
     "plus": '<path d="M12 5v14M5 12h14"/>',
@@ -28,15 +30,29 @@ PATHS = {
     "settings": '<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>',
     "skip": '<circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/>',
     "download": '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>',
+    "star": '<path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/>',
+    "info": '<circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>',
+    "sun": '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2m-7.07-2.93 1.41-1.41m11.32-11.32 1.41-1.41M2 12h2m16 0h2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41"/>',
+    "moon": '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',
+    "monitor": '<rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>',
+    "scale": '<path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1ZM2 16l3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1ZM7 21h10M12 3v18M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/>',
+    "link": '<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>',
 }
 
 
-def svg(name, color="#e6e9ef", width=2.0):
-    return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="{color}" '
+def resolve(color):
+    """Accetta un ruolo del tema ('text2', 'muted', 'dim', 'on_accent', ...) oppure un colore '#rrggbb'."""
+    if isinstance(color, str) and not color.startswith("#") and hasattr(P, color):
+        return getattr(P, color)
+    return color
+
+
+def svg(name, color="text2", width=2.0):
+    return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="{resolve(color)}" '
             f'stroke-width="{width}" stroke-linecap="round" stroke-linejoin="round">{PATHS[name]}</svg>')
 
 
-def pixmap(name, color="#e6e9ef", size=18, width=2.0, dpr=2.0):
+def pixmap(name, color="text2", size=18, width=2.0, dpr=2.0):
     r = QSvgRenderer(QByteArray(svg(name, color, width).encode()))
     pm = QPixmap(int(size * dpr), int(size * dpr))
     pm.fill(Qt.transparent)
@@ -47,13 +63,45 @@ def pixmap(name, color="#e6e9ef", size=18, width=2.0, dpr=2.0):
     return pm
 
 
-def icon(name, color="#c9cfdb", size=18, active=None):
-    ic = QIcon()
-    ic.addPixmap(pixmap(name, color, size), QIcon.Normal)
-    ic.addPixmap(pixmap(name, "#5b6272", size), QIcon.Disabled)
-    if active:
-        ic.addPixmap(pixmap(name, active, size), QIcon.Active)
-    return ic
+_renderers = {}  # cache dei renderer SVG per (icona, colore, spessore)
+
+
+class _ThemedEngine(QIconEngine):
+    """Icona vettoriale che si ricolora da sola al cambio di tema (il colore è risolto a ogni disegno)."""
+
+    def __init__(self, name, color, width):
+        super().__init__()
+        self.name, self.color, self.width = name, color, width
+
+    def _renderer(self, mode):
+        if mode == QIcon.Disabled and not str(self.color).startswith("#"):
+            col = "dim"
+        else:
+            col = self.color
+        key = (self.name, resolve(col), self.width)
+        r = _renderers.get(key)
+        if r is None:
+            r = _renderers[key] = QSvgRenderer(QByteArray(svg(self.name, col, self.width).encode()))
+        return r
+
+    def paint(self, painter, rect, mode, state):
+        self._renderer(mode).render(painter, QRectF(rect))
+
+    def pixmap(self, size, mode, state):
+        pm = QPixmap(size)
+        pm.fill(Qt.transparent)
+        p = QPainter(pm)
+        self._renderer(mode).render(p, QRectF(0, 0, size.width(), size.height()))
+        p.end()
+        return pm
+
+    def clone(self):
+        return _ThemedEngine(self.name, self.color, self.width)
+
+
+def icon(name, color="text2", size=18, active=None, width=2.0):
+    """QIcon tematizzata. `size` è mantenuto per compatibilità (l'icona è vettoriale)."""
+    return QIcon(_ThemedEngine(name, color, width))
 
 
 def app_icon_pixmap(size=256):

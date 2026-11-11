@@ -24,7 +24,7 @@ Prisma converte, ridimensiona e ottimizza le immagini in blocco. Trascina file o
 
 ## Download
 
-L'installer per Windows è nella sezione **[Releases](../../releases/latest)**: scarica `Prisma-Setup-1.0.exe` ed eseguilo. Tutti gli strumenti necessari (ImageMagick, FFmpeg, texconv) sono già inclusi.
+L'installer per Windows è nella sezione **[Releases](../../releases/latest)**: scarica `Prisma-Setup-1.1.exe` ed eseguilo. Tutti gli strumenti necessari (ImageMagick, FFmpeg, texconv) sono già inclusi.
 
 ## Funzionalità
 
@@ -38,7 +38,8 @@ L'installer per Windows è nella sezione **[Releases](../../releases/latest)**: 
 - **Fotogrammi dai video**: Prisma può estrarre un'immagine anche da un file video, grazie a FFmpeg.
 - **Destinazione e nomi dei file**: cartella accanto all'originale, sottocartella o cartella a scelta; schema dei nomi con segnaposto; comportamento configurabile se il file esiste già.
 - **Preset**: salva le tue impostazioni preferite e richiamale in un clic.
-- **Interfaccia scura** con avanzamento nel titolo della finestra e menu contestuali (apri originale, apri convertito, copia percorso, riconverti).
+- **Interfaccia moderna** con tema **scuro e chiaro** (o quello del sistema, con cambio immediato), avanzamento nel titolo della finestra e menu contestuali (apri originale, apri convertito, copia percorso, riconverti).
+- **Pensata per la tastiera**: scorciatoie per tutto (`Ctrl+O`, `Ctrl+V`, `Ctrl+Invio`, `Esc`, `Ctrl+F`, `Ctrl+Z` per riportare in lista i file rimossi, `F1` per le informazioni, `Ctrl+,` per le impostazioni), focus sempre visibile e nomi accessibili per i lettori di schermo.
 
 ## Formati
 
@@ -84,9 +85,14 @@ python build.py   :: crea dist\Prisma-Setup-<versione>.exe
 ```
 Prisma/
 ├─ Prisma.pyw        avvio dell'applicazione
-├─ ui.py             interfaccia grafica (PySide6)
+├─ ui.py             finestra principale e avvio
+├─ dialogs.py        anteprima, impostazioni, informazioni e licenze
+├─ widgets.py        lista file, drop zone, toast, form delle opzioni
+├─ jobs.py           job di conversione e worker in background
+├─ theme.py          design token e temi scuro/chiaro
+├─ common.py         versione, percorsi e utilità condivise
 ├─ engine.py         motore di conversione (ImageMagick, FFmpeg, texconv)
-├─ icons.py          icone disegnate via codice
+├─ icons.py          icone vettoriali che seguono il tema
 ├─ build.py          build dell'eseguibile e dell'installer
 ├─ installer/        script Inno Setup e pagina della licenza
 ├─ tools/            texconv.exe (Microsoft DirectXTex)
